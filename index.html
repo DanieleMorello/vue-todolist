@@ -5,6 +5,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Vue todolist</title>
+  <!-- GOOGLE FONT -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Livvic:wght@500;600;700&display=swap" rel="stylesheet">
   <!-- FONTAWESOME CSS CDN -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer">
   <!-- EXTERNAL BOOTSTRAP CSS CDN -->
@@ -12,26 +16,31 @@
   <!-- STYLE CSS -->
   <link rel="stylesheet" href="./assets/css/style.css">
 </head>
-<body>
+<body class="bg-info">
   
   <div id="app">
 
-    <header id="app_header">
+    <header id="app_header" class="bg-primary d-flex text-white align-items-center justify-content-center mb-3 pb-3">
       <h1 class="text-center pt-3 m-0">ToDo List</h1>
     </header>
-    
     <!-- /#app_header -->
+
     <main id="app_main">
-
+      <ul class="list-unstyled text-center">
+        <li v-for="(todo, index) in todos" :key="index" :class="{ 'done': todo.done }">
+          <span v-if="!todo.done" @click="toggleTodoDone(index)">{{ todo.text }}</span>
+          <del v-if="todo.done">{{ todo.text }}</del>
+          <button @click="removeTodo(index)"><i class="fa-solid fa-xmark text-danger"></i></button>
+        </li>
+      </ul>
+      <div class="text-center">
+        <input type="text" v-model.trim="newTodoText" @keyup.enter="addNewTodo()" @keydown.delete="removeTodo()">
+        <button @click="addNewTodo()" :disabled="newTodoText.length < 5">Aggiungi</button>
+        <span v-if="newTodoText.length > 0 && newTodoText.length < 5" class="text-danger">Il testo deve essere lungo almeno 5 caratteri</span>
+      </div>
     </main>
-
     <!-- /#app_main -->
-    
-    <footer id="app_footer">
-
-    </footer>
-    <!-- /#app_footer -->
-
+  
   </div>
 
   <!-- VUE JS -->
